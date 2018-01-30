@@ -18,5 +18,6 @@ public class GenTest<T> {
     public static void main(String[] args) {
         GenTest<Integer> inTT = new GenTest<>(678);
         System.out.println(inTT.showType() + " value:" + inTT.GetObj());
+        // TODO: 30.01.2018 write string example 
     }
 }
