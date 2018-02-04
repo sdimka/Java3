@@ -15,8 +15,8 @@ import java.util.stream.DoubleStream;
 
 //    -------------   Task 3 -----------------
 class Fruit {
-    private int id;
-    private float weight;
+    protected int id;
+    protected float weight;
 
     public Fruit(int id, float weight) {
         this.id = id;
@@ -71,7 +71,7 @@ class Box<T extends Fruit>{
     }
 
     public boolean compare(Box<?> b){
-        return getWeight() == b.getWeight();
+        return Float.compare(getWeight(), b.getWeight()) == 0;
     }
 
     public void merge(Box<? extends T> obj ){
