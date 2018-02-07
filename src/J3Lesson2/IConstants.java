@@ -1,6 +1,8 @@
+package J3Lesson2;
+
 interface IConstants {
     final String DRIVER_NAME = "org.sqlite.JDBC";
-    final String SQLITE_DB = "jdbc:sqlite:chat.db";
+    final String SQLITE_DB = "jdbc:sqlite:prod.db";
     final String SERVER_ADDR = "localhost"; // server net name or "127.0.0.1"
     final int SERVER_PORT = 2048; // servet port
     final String SERVER_START = "Server is started...";
