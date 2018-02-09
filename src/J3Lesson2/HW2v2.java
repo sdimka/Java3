@@ -1,5 +1,13 @@
 package J3Lesson2;
 
+/**
+ * Java. Level 3. Lesson 2
+ *
+ * @author Dmitriy Semenov
+ * @version 0.2 dated Feb 09, 2018
+ * @link https://github.com/sdimka/Java3
+ *
+ */
 
 import J3Lesson2.Products;
 import org.hibernate.HibernateException;
@@ -11,16 +19,15 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.query.Query;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HW2v2 {
 
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
     Session session = null;
+
+    final String UNKNOWN_COMMAND = "use [-create,-init,-getprice ProducName,-setprice ProductName Price, -list LowPrice HiPrice] only.";
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
@@ -100,21 +107,24 @@ public class HW2v2 {
 
     private void setPrice(String prd, int price){
         session.beginTransaction();
-        List<Products> result = session.createQuery("from Products where title = (:title)")
-                .setParameter("title", prd).list();
-        if (result.isEmpty()){
-            System.out.println(prd + " not found");
-        } else {
-            session.beginTransaction();
-            result.forEach(a -> {});
-        }
+        Query query = session.createQuery("update Products set cost = :cost where title = :title");
+        query.setParameter("cost", price);
+        query.setParameter("title", prd);
+        query.executeUpdate();
+        session.getTransaction().commit();
     }
 
     private void listRange(int lowPrice, int hiPrice){
-
+        session.beginTransaction();
+        List<Products> result = session.createQuery("from Products where cost >= :lowPrice and cost <= :hiPrice")
+                .setParameter("lowPrice", lowPrice).setParameter("hiPrice", hiPrice).list();
+        session.getTransaction().commit();
+        if (result.isEmpty()){
+            System.out.println("Nothing found");
+        } else result.forEach(a -> System.out.println(a.getTitle() +"\t\t"+ a.getCost()));
     }
 
-    public HW2v2() {
+    public HW2v2(String[] args) {
 
         try {
             session = HW2v2.getSessionFactory().openSession();
@@ -122,21 +132,43 @@ public class HW2v2 {
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        if (session != null) {
-            //List<Products> productsList = listProducts();
-            //productsList.forEach(a -> System.out.println(a.getTitle()));
-            //addProduct("Prd1", 10);
-            //addProduct("Prd2", 20);
-            init();
-            getPrice("Товар10");
+        if (args.length == 0) {
+            System.out.println("Please " + UNKNOWN_COMMAND);
+            Scanner sc = new Scanner(System.in);
+            System.out.print("> ");
+            String line = sc.nextLine();
+            args = line.split(" ");
+        }
 
-            if (session.isOpen())
-                session.close();
+        switch (args[0]) {
+            case "-create":
+                System.out.println("If  you see this, table was created by Hibernate");
+                break;
+            case "-init":
+                init();
+                break;
+            case "-getprice":
+                if (args.length > 1) {
+                    getPrice(args[1]);
+                }else System.out.println("Please, enter product name");
+                break;
+            case "-setprice":
+                if (args.length > 2) {
+                    setPrice(args[1], Integer.parseInt(args[2]));
+                }else System.out.println("Please, enter product name and new price");
+                break;
+            case "-list":
+                if (args.length > 2) {
+                    listRange(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+                }else System.out.println("Please, enter price range");
+                break;
+            default:
+                System.out.println("Unknown command," + UNKNOWN_COMMAND);
         }
     }
 
     public static void main(String[] args) {
-        new HW2v2();
+        new HW2v2(args);
         System.exit(0);
     }
 }
