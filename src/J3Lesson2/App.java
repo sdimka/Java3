@@ -29,11 +29,12 @@ public class App {
     private Session createHibernateSession() {
         try {
             Map<String, String> settings = new HashMap<String, String>();
-            settings.put("hibernate.connection.driver_class", "org.sqlite.JDBC");
-            settings.put("hibernate.connection.url", "jdbc:sqlite:mysqlite.db");
-            settings.put("hibernate.connection.username", "");
-            settings.put("hibernate.connection.password", "");
+            settings.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
+            settings.put("hibernate.connection.url", "jdbc:mysql://35.198.121.82:3306/DB1?cloudSqlInstance=my0test0bd\"");
+            settings.put("hibernate.connection.username", "sd30");
+            settings.put("hibernate.connection.password", "pnpIpwm2b7");
             settings.put("hibernate.show_sql", "true");
+            settings.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
             settings.put("hibernate.hbm2ddl.auto", "update");
 
             StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -64,7 +65,6 @@ public class App {
      * Adding records to the table
      */
     private void recordsAdd() {
-        System.out.println("BLA!!!!!!!!!!!!!__________________________________");
         try {
             System.out.println("Adding to the table of database:");
             Transaction tx = session.beginTransaction();
