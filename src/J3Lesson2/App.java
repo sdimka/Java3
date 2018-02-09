@@ -64,6 +64,7 @@ public class App {
      * Adding records to the table
      */
     private void recordsAdd() {
+        System.out.println("BLA!!!!!!!!!!!!!__________________________________");
         try {
             System.out.println("Adding to the table of database:");
             Transaction tx = session.beginTransaction();
@@ -105,9 +106,9 @@ public class App {
     public App() {
         session = createHibernateSession();
         if (session != null) {
-           // recordsAdd();
-           // recordsRead();
-            recordFind(Integer.valueOf(persons[1][0]));
+           recordsAdd();
+           recordsRead();
+           recordFind(Integer.valueOf(persons[1][0]));
             if (session.isOpen())
                 session.close();
         }

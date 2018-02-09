@@ -1,16 +1,18 @@
 package J3Lesson2.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-//@Table(name="person")
+@Table(name="person")
 public class Person {
 
     @Id
-    //@Column(name="id")
+    @Column(name="id")
     int    id;
-    //@Column(name="name")
+    @Column(name="name")
     String name;
 
     public Person() {}
