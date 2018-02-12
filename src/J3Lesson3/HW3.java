@@ -4,31 +4,34 @@ import java.io.*;
 
 public class HW3 {
 
-    static void makeByteArray(){
+    private static void makeByteArray(){
         byte bw[] = {10,20,30,40,50};
-        File file = new File("data.bin");
-        FileInputStream fis = null;
-        ByteArrayInputStream is =new ByteArrayInputStream(bw);
-        try (FileOutputStream fos = new FileOutputStream(file)){
 
+        try (FileOutputStream fos = new FileOutputStream("data.bin")){
             for (byte a : bw) {
                 fos.write(a);
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null){
-                    fos.close();
-                }
-            }catch (IOException e){
+        }
 
-            }
+    }
+
+    private static void readByteArray(){
+
+
+        try (FileInputStream fis = new FileInputStream("data.bin");
+             InputStreamReader isr = new InputStreamReader(fis);
+      //  ByteArrayInputStream is = new ByteArrayInputStream(isr);
+        ){
+
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
         makeByteArray();
-        readByteArray();
+       // readByteArray();
     }
 }
