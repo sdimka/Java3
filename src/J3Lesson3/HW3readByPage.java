@@ -40,24 +40,47 @@ public class HW3readByPage {
     }
 
     private static void readPage(int pNum) {
+        long startTime = System.nanoTime();
         char chArr[] = new char[1800];
         int pCount = 0;
         try (BufferedReader br = new BufferedReader(new FileReader("text.txt"))) {
 
-            while (pCount != pNum) {
+            while (pCount != pNum +1) {
                 br.read(chArr, 0, 1800);
                 pCount++;
             }
             System.out.println(chArr);
+
+            long stopTime = System.nanoTime();
+            System.out.println("Search time: " + (stopTime - startTime)/1000000 + " milliseconds");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private static void readPageSeek(int pNum){
+        long startTime = System.nanoTime();
+        char chArr[] = new char[1800];
+
+        try(RandomAccessFile file = new RandomAccessFile("text.txt", "r")){
+            file.seek(pNum*1800);
+            for(int i = 0; i < chArr.length; i++){
+               chArr[i] = (char)file.read();
+            }
+            System.out.println(chArr);
+            long stopTime = System.nanoTime();
+            System.out.println("Search time: " + (stopTime - startTime)/1000000 + " milliseconds");
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public static void main(String[] args) {
         //GenerateFile();
         //readPage(4500);
-        System.out.println("c - create big file, s number - print page number, ex - exit");
+        System.out.println("c - create big file, s num - search page by num v1, ss num - search page by num v2, ex - exit");
         do {
             Scanner sc = new Scanner(System.in);
             System.out.print("> ");
@@ -70,6 +93,9 @@ public class HW3readByPage {
                     break;
                 case "s":
                     readPage(Integer.parseInt(args[1]));
+                    break;
+                case "ss":
+                    readPageSeek(Integer.parseInt(args[1]));
                     break;
                 case "ex":
                     System.out.println("Bye!");
