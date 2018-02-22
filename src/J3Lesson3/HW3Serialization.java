@@ -1,9 +1,18 @@
 package J3Lesson3;
 
+/**
+ * Java. Level 3. Lesson 3
+ * Task extra - write-read to file using serializable
+ *
+ * @author Dmitriy Semenov
+ * @version 0.2 dated Feb 13, 2018
+ * @link https://github.com/sdimka/Java3
+ *
+ */
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+
 
 public class HW3Serialization {
 
@@ -32,7 +41,7 @@ public class HW3Serialization {
 
     }
 
-    private static void writeObjectToFile (ArrayList<?> arr){
+    static void writeObjectToFile (ArrayList<?> arr){
         try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream( "empl.out"))){
             ou.writeObject(arr);
         } catch (IOException e) {
@@ -41,19 +50,16 @@ public class HW3Serialization {
     }
 
     static void readObjectFromFile (ArrayList<Employee> arrZ){
-        ArrayList<Employee> tmp = new ArrayList<>();
         try{
         ObjectInputStream is = new ObjectInputStream(new FileInputStream( "empl.out"));
             try {
-                tmp = (ArrayList<Employee>)is.readObject();
+                arrZ.addAll((ArrayList<Employee>)is.readObject());
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        tmp.forEach(a -> arrZ.add(a));
-        Collections.addAll()
     }
 }
 

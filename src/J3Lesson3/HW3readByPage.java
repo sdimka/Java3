@@ -1,5 +1,15 @@
 package J3Lesson3;
 
+/**
+ * Java. Level 3. Lesson 3
+ * Task 3 - read file by page
+ *
+ * @author Dmitriy Semenov
+ * @version 0.2 dated Feb 13, 2018
+ * @link https://github.com/sdimka/Java3
+ *
+ */
+
 import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
