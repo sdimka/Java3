@@ -5,10 +5,12 @@ import java.io.*;
 public class WaitNotifyClass {
     private final Object monitor = new Object();
     private volatile char currentLetter = 'A';
+    private volatile String trName = "f1";
 
     private volatile File file = new File ("fileHW4.txt");
 
     public static void main(String[] args) {
+
         WaitNotifyClass w = new WaitNotifyClass();
         Thread t1 = new Thread(() -> {
             w.printCH('A', 'B');
@@ -30,13 +32,13 @@ public class WaitNotifyClass {
         }
 
         Thread f1 = new Thread(() -> {
-            w.writeToFile("f1");
+            w.writeToFile("f1", "f2");
         });
         Thread f2 = new Thread(() -> {
-            w.writeToFile("f2");
+            w.writeToFile("f2", "f3");
         });
         Thread f3 = new Thread(() -> {
-            w.writeToFile("f3");
+            w.writeToFile("f3", "f1");
         });
 
         f1.start();
@@ -59,19 +61,22 @@ public class WaitNotifyClass {
         }
     }
 
-    void writeToFile(String name){
+    void writeToFile(String name, String next){
         synchronized (file) {
             try {
-                FileWriter fw = new FileWriter(file);
-                for (int i = 0; i < 10; i++) {
+                FileWriter fw = new FileWriter(file, true);
+                for (int i = 0; i < 3; i++) {
+                    while (!trName.equals(name)) file.wait();
                     try {
-                        fw.write("Bla-" + name);
+                        fw.write("B+" + i + " " + name + "\n");
                         fw.flush();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    trName = next;
+                    file.notifyAll();
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

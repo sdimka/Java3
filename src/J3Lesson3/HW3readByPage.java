@@ -11,7 +11,6 @@ package J3Lesson3;
  */
 
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
 
 public class HW3readByPage {
@@ -19,7 +18,7 @@ public class HW3readByPage {
     private static void GenerateFile() {
         char chArr[] = new char[1800];
         char chLor[] = new char[1800];
-        Random random = new Random();
+
 
         try (BufferedReader br = new BufferedReader(new FileReader("lorem.txt"))) {
             br.read(chLor, 0, 1800);
