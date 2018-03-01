@@ -1,18 +1,33 @@
 package J3Lesson5;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
+
+/**
+ * Java. Level 3. Lesson 5
+ * Task 1
+ *
+ * Убрал public из классов, чтобы все было одним файлом.
+ * Синхронизацию старта сделал классом, через расширение Stage.
+ * «Вместимость» тоннеля ограничил Semaphore.
+ * Синхронизацию финиша, через метод run класса Car, там же вычисление победителя.
+ *
+ * @author Dmitriy Semenov
+ * @version 0.1 dated Mar 3, 2018
+ * @link https://github.com/sdimka/Java3
+ *
+ */
 
 public class HW5 {
     public static final int CARS_COUNT = 4;
-    //final CountDownLatch start = new CountDownLatch(1);
+
     final static CountDownLatch finish = new CountDownLatch(CARS_COUNT);
 
     public static void main(String[] args) {
+
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
         Race race = new Race(new raceStart(CARS_COUNT), new Road(60), new Tunnel(CARS_COUNT/2), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
@@ -22,7 +37,7 @@ public class HW5 {
         for (int i = 0; i < cars.length; i++) {
             new Thread(cars[i]).start();
         }
-       // System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+        // System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
         try {
             finish.await();
         } catch (InterruptedException e) {
@@ -68,6 +83,9 @@ class Car implements Runnable {
         }
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
+        }
+        if (finish.getCount() == HW5.CARS_COUNT){
+            System.out.println("I'm a WINNER!!! " + this.getName());
         }
         finish.countDown();
     }
@@ -119,12 +137,10 @@ class raceStart extends Stage{
 class Tunnel extends Stage {
 
     private Semaphore SEMAPHORE;
-    private int capacity;
 
     public Tunnel(int capacity) {
         this.length = 80;
         this.description = "Тоннель " + length + " метров";
-        this.capacity = capacity;
         SEMAPHORE = new Semaphore(capacity, true);
 
     }
