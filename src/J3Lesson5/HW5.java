@@ -40,6 +40,7 @@ public class HW5 {
         // System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
         try {
             finish.await();
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
