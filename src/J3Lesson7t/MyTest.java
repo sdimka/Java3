@@ -8,6 +8,11 @@ public class MyTest {
         System.out.println("Running test # 1");
     }
 
+    @Test(priority = 3)
+    public void test4() {
+        System.out.println("Running test # 4, same priority with 3");
+    }
+
     @Test(priority = 2)
     public void test2() {
         System.out.println("Running test # 2");
@@ -15,7 +20,32 @@ public class MyTest {
 
     @Test(priority = 3)
     public void test3() {
-        System.out.println("Running test # 3");
+        System.out.println("Running test # 3, same priority with 4");
     }
+
+    @Test
+    public void test5() {
+        System.out.println("Running test # 5, no priority");
+    }
+
+    @BeforeSuite
+    public void before() {
+        System.out.println("Running Before");
+    }
+
+    @AfterSuite
+    public void after() {
+        System.out.println("Running After");
+    }
+
+//    @AfterSuite
+//    public void afterSecond() {
+//        System.out.println("Running After");
+//    }
+
+//    @BeforeSuite
+//    public void beforeSecond() {
+//        System.out.println("Running Before");
+//    }
 
 }
