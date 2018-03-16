@@ -1,5 +1,15 @@
 package J3Lesson7t;
 
+/**
+ * Java. Level 3. Lesson 7
+ * Task 2, "extended"
+ *
+ *
+ * @author Dmitriy Semenov
+ * @version 0.1 dated Mar 16, 2018
+ * @link https://github.com/sdimka/Java3
+ *
+ */
 
 public class MyTest {
 

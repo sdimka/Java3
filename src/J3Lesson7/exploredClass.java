@@ -1,6 +1,6 @@
 package J3Lesson7;
 
-class exploredClass {
+class exploredClass extends Thread implements Runnable {
     public int i;
     private int p;
 
